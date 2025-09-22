@@ -1,0 +1,5 @@
+# Netlify redirects (nếu sử dụng Netlify)
+/*    /index.html   200
+
+# API proxy rules
+/api/*  https://ichi.io.vn/api/:splat  200

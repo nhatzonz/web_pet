@@ -1,0 +1,105 @@
+:root {
+    --text: #000;
+    --color-website: #a26a14;
+    --background-website: #f0c8a5;
+    /* --color-website: #beaa43; */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    background-color: #fff;
+    margin: 0;
+}
+p {
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.container__main {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container__main-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container__main-content {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 30px auto 0;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 170px;
+
+    flex: 1;
+}
+
+/* Utility container to đồng bộ bề ngang */
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+    .container,
+    .container__main-content {
+        max-width: 992px;
+    }
+}
+@media (max-width: 768px) {
+    .container,
+    .container__main-content {
+        max-width: 100%;
+        padding: 0 12px;
+    }
+
+    .container__main-content {
+        margin-top: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container,
+    .container__main-content {
+        max-width: 100%;
+        padding: 0 8px;
+    }
+
+    .container__main-content {
+        margin-top: 140px;
+    }
+
+    body {
+        font-size: 15px;
+    }
+}

@@ -1,0 +1,78 @@
+/* Nút nổi */
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #008749;
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 22px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.floating-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 135, 73, 0.8);
+}
+
+/* Hiệu ứng tỏa viền (pulse) */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 135, 73, 0.6);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(0, 135, 73, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 135, 73, 0);
+    }
+}
+
+/* Menu contact */
+.contact-menu {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1000;
+}
+
+.contact-menu.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.contact-menu a {
+    background: white;
+    border-radius: 30px;
+    padding: 10px 15px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.contact-menu a:hover {
+    transform: scale(1.05);
+    background: var(--background-website);
+}

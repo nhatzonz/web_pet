@@ -1,0 +1,129 @@
+.banner-container {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.banner-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.banner-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.banner-form {
+    display: grid;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.banner-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    align-items: center;
+    gap: 12px;
+}
+
+.banner-input,
+.banner-row input[type='number'],
+.banner-row input[type='file'] {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+
+.banner-btn {
+    background: var(--color-website);
+    color: #fff;
+    border: 1px solid var(--color-website);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.banner-btn:hover {
+    background: #a89436;
+    border-color: #a89436;
+}
+
+.banner-btn.ghost {
+    background: #fff;
+    color: var(--color-website);
+    border-color: #ddd;
+}
+
+.banner-btn.ghost:hover {
+    background: #f5f5f5;
+}
+
+.banner-btn.danger {
+    background: #dc2626;
+    border-color: #dc2626;
+    margin-left: 8px;
+}
+
+.banner-btn.danger:hover {
+    background: #b91c1c;
+    border-color: #b91c1c;
+}
+
+.banner-divider {
+    margin: 16px 0;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.banner-table-wrapper {
+    overflow-x: auto;
+    margin-top: 12px;
+}
+
+.banner-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.banner-table thead th {
+    text-align: left;
+    font-weight: 600;
+    padding: 10px 8px;
+    background: #f8f8f8;
+}
+
+.banner-table tbody td {
+    padding: 10px 8px;
+    border-top: 1px solid #eee;
+}
+
+.banner-image {
+    height: 64px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.banner-edit {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+    display: grid;
+    gap: 12px;
+}
+
+.banner-actions {
+    display: flex;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .banner-row {
+        grid-template-columns: 1fr;
+    }
+}
