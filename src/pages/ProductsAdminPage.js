@@ -150,6 +150,10 @@ export default function ProductsAdminPage() {
             fd.append('sort_order', String(form.sort_order));
             const attrsPayload = attrRows.filter((r) => r.attribute_id && r.value);
             if (attrsPayload.length) fd.append('attributes', JSON.stringify(attrsPayload));
+            if (editingId) {
+                fd.append('replace_attributes', 'true');
+                fd.append('remove_missing', 'true');
+            }
             images.forEach((img) => fd.append('images', img.file));
             const mainIndex = images.findIndex((img) => img.isMain);
             if (mainIndex !== -1) fd.append('main_index', mainIndex);
@@ -177,6 +181,31 @@ export default function ProductsAdminPage() {
         }
     };
 
+    // Ngăn Enter gửi form (trừ textarea)
+    const handleFormKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            const tag = e.target?.tagName?.toLowerCase();
+            if (tag !== 'textarea') {
+                e.preventDefault();
+            }
+        }
+    };
+
+    // Enter trong dòng thuộc tính => thêm dòng mới với cùng attribute_id
+    const handleAttrKeyDown = (e, rowIndex) => {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        const current = attrRows[rowIndex];
+        const nextRows = [...attrRows];
+        const newRow = { attribute_id: current.attribute_id || '', value: '', extra_price: 0 };
+        nextRows.splice(rowIndex + 1, 0, newRow);
+        setAttrRows(nextRows);
+        setTimeout(() => {
+            const el = document.querySelector(`[data-attr-row="${rowIndex + 1}"][data-field="value"]`);
+            if (el) el.focus();
+        }, 50);
+    };
+
     const startEdit = (p) => {
         setShowCreated(true);
         setEditingId(p.id);
@@ -191,6 +220,29 @@ export default function ProductsAdminPage() {
         setImages([]);
         setReplaceImages(false);
         setErrors({});
+
+        // Nạp thuộc tính hiện có của sản phẩm
+        (async () => {
+            try {
+                const res = await fetch(`${API_BASE}/api/products/${p.id}`, {
+                    headers: { Authorization: token ? `Bearer ${token}` : undefined },
+                });
+                const detail = await res.json().catch(() => ({}));
+                if (res.ok && detail?.product_attribute_values) {
+                    const rows = (detail.product_attribute_values || []).map((v) => ({
+                        attribute_id: v?.product_attribute?.id || '',
+                        value: v?.value || '',
+                        extra_price: v?.extra_price ? Number(v.extra_price) : 0,
+                    }));
+                    setAttrRows(rows.length ? rows : [{ attribute_id: '', value: '', extra_price: 0 }]);
+                } else {
+                    setAttrRows([{ attribute_id: '', value: '', extra_price: 0 }]);
+                }
+            } catch (err) {
+                console.error('Lỗi tải chi tiết sản phẩm:', err);
+                setAttrRows([{ attribute_id: '', value: '', extra_price: 0 }]);
+            }
+        })();
 
         // Tự động cuộn lên form sau khi mở
         setTimeout(() => {
@@ -403,7 +455,7 @@ export default function ProductsAdminPage() {
 
                 {/* Form */}
                 {showCreated && (
-                    <form onSubmit={submit} className="product-admin-form">
+                    <form onSubmit={submit} onKeyDown={handleFormKeyDown} className="product-admin-form">
                         <div className="product-admin-grid">
                             <div className="product-admin-field">
                                 <label className="required">Tên sản phẩm</label>
@@ -619,6 +671,7 @@ export default function ProductsAdminPage() {
                                                     next[idx].attribute_id = e.target.value;
                                                     setAttrRows(next);
                                                 }}
+                                                onKeyDown={(e) => handleAttrKeyDown(e, idx)}
                                             >
                                                 <option value="">-- Chọn --</option>
                                                 {attributes.map((a) => (
@@ -636,6 +689,9 @@ export default function ProductsAdminPage() {
                                                     next[idx].value = e.target.value;
                                                     setAttrRows(next);
                                                 }}
+                                                data-attr-row={idx}
+                                                data-field="value"
+                                                onKeyDown={(e) => handleAttrKeyDown(e, idx)}
                                             />
                                             <input
                                                 className="product-admin-input"
@@ -647,6 +703,7 @@ export default function ProductsAdminPage() {
                                                     next[idx].extra_price = Number(e.target.value);
                                                     setAttrRows(next);
                                                 }}
+                                                onKeyDown={(e) => handleAttrKeyDown(e, idx)}
                                             />
                                             <button
                                                 type="button"
